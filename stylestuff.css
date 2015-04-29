@@ -1,0 +1,13 @@
+body {text-align:center;}
+.nav-bar {width:100%; position:fixed; left:0px; top:0px; z-index:100;}
+.nav-bar ul a {text-decoration:none; color:white; padding: .2em 1em; }
+.pages {text-decoration:none;}
+.nav-bar ul {list-style-type:none; margin:0; padding:0; height:50px;}
+.nav-bar ul {
+	background: -webkit-linear-gradient(black, gray);
+	background: -o-linear-gradient(black, gray);
+	background: -moz-linear-gradient(black, gray);
+	background: linear-gradient(black, gray);
+}
+.nav-bar ul li {display:inline;}
+.nav-bar ul li a:hover {color:gray;}
