@@ -18,6 +18,7 @@ function bowler()
 	bowlerImg.style.top = this.ymin + "px";
 	bowlerImg.style.left = this.xmin + "px";
 	document.body.appendChild(bowlerImg);
+	this.shifted = false;
 	this.updateImg = function() 
 	{
 		bowlerImg.style.left = this.xmin + "px";
@@ -40,14 +41,14 @@ function bowler()
 	}
 	this.movingRight = false;
 	this.movingLeft = false;
-	this.moveBowler = function(direction)
+	this.moveBowler = function(speed, direction)
 	{
 		if(direction == LEFT)
 		{
 			clearInterval(this.rightMove);
 			if(!this.movingLeft)
 			{
-				this.leftMove = setInterval(function(){left(SPEED_1, LEFT);}, 5);
+				this.leftMove = setInterval(function(){left(speed, LEFT);}, 5);
 			}
 			this.movingRight = false;
 			this.movingLeft = true;
@@ -57,7 +58,7 @@ function bowler()
 			clearInterval(this.leftMove);
 			if(!this.movingRight)
 			{
-				this.rightMove = setInterval(function(){right(SPEED_1, RIGHT);}, 5);
+				this.rightMove = setInterval(function(){right(speed, RIGHT);}, 5);
 			}
 			this.movingLeft = false;
 			this.movingRight = true;
@@ -68,23 +69,40 @@ function bowler()
 //calling this.updateBowler not working so used left and right function
 function right(speed, direction)
 {
-	Palpa.updateBowler(speed, direction);
+	if(Palpa.shifted)
+	{
+		Palpa.updateBowler(SPEED_2, RIGHT);
+	}
+	else{
+	Palpa.updateBowler(speed, direction);}
 }
 function left(speed, direction)
 {
-	Palpa.updateBowler(speed, direction);
+	if(Palpa.shifted)
+	{
+			Palpa.updateBowler(SPEED_2, LEFT);
+	}
+	else{
+	Palpa.updateBowler(speed, direction);}
 }
 function move(e)
 {
+	if(e.shiftKey)
+	{
+		Palpa.shifted = true;
+	}
 	//left
 	if(e.which == 65)
 	{
-		Palpa.moveBowler(LEFT);
+		
+		Palpa.moveBowler(SPEED_1, LEFT);
+		
 	}
 	//right
 	if(e.which == 68)
 	{
-		Palpa.moveBowler(RIGHT);
+		Palpa.moveBowler(SPEED_1, RIGHT);
+		
 	}
 }
 function Mages()
@@ -134,7 +152,7 @@ function Mages()
 	}
 	this.moveMage = function()
 	{
-		this.goDown = setInterval(function(){me.updateMage(4)}, 20);
+		this.goDown = setInterval(function(){me.updateMage(4)}, 10);
 	}
 	this.moveMage();
 }
@@ -142,6 +160,10 @@ function Mages()
 
 function moveMK2(e)
 {
+	if(e.which == 16)
+	{
+		Palpa.shifted = false;
+	}
 	if(e.which == 65)
 	{
 		clearInterval(Palpa.leftMove);
