@@ -13,7 +13,7 @@ function bowler()
 	this.ymin = window.innerHeight - height;
 	this.ymax = this.ymin + 120;
 	var bowlerImg = document.createElement("img");
-	bowlerImg.src = "catchperson.jpg";
+	bowlerImg.src = "catchperson.png";
 	bowlerImg.style.position = "fixed";
 	bowlerImg.style.top = this.ymin + "px";
 	bowlerImg.style.left = this.xmin + "px";
@@ -122,6 +122,7 @@ function Mages()
 	mageImg.style.left = this.xmin + "px";
 	mageImg.style.width = width + "px";
 	mageImg.style.height = height + "px";
+	mageImg.className = "imgpulse" + ranImg;
 	document.body.appendChild(mageImg);
 	var me = this;
 	this.updateImg = function() 
