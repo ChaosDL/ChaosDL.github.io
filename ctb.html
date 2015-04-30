@@ -15,11 +15,13 @@
 	</head>
 		
 	<body>
-		<div id = "boop">asdasd</div>
+		<audio id = "bgAud" autoplay = "autoplay" loop="loop" preload="auto" src="ctbbgm.mp3" type="audio/mp3"></audio>
+		<div id = "boop">0</div>
 		<script type = "text/javascript">
 			scoreDiv = document.getElementById("boop");
 			Palpa = new bowler();
 			createDemMages = setInterval(function(){var magey = new Mages();}, 1000);
+			document.getElementById("bgAud").volume = .8;
 		</script>
 	</body>
 </html>

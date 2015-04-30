@@ -105,6 +105,7 @@ function move(e)
 		
 	}
 }
+var audio;
 function Mages()
 {
 	var width = 90;
@@ -138,7 +139,18 @@ function Mages()
 			score++;
 			scoreDiv.innerHTML = score;
 			document.body.removeChild(mageImg);
-			clearInterval(goDown);
+			var flashImg = document.createElement("img");
+			flashImg.src = "flash" + ranImg + ".png";
+			flashImg.style.position = "fixed";
+			flashImg.style.top = Palpa.ymin - 150 + "px";
+			flashImg.style.left = Palpa.xmin + "px";
+			flashImg.style.opacity = 1;
+			var flashTravel = setInterval(function(){flashImg.style.left = Palpa.xmin + "px"; flashImg.style.opacity -= (1/160)}, 5);
+			document.body.appendChild(flashImg);
+			audio = new Audio(ranImg + ".wav");
+			audio.play();
+			setTimeout(function(){clearInterval(flashTravel); document.body.removeChild(flashImg)}, 800);
+			clearInterval(this.goDown);
 			
 		}
 		else
@@ -146,7 +158,7 @@ function Mages()
 			if(this.ymin == window.innerHeight)
 			{
 				document.body.removeChild(mageImg);
-				clearInterval(goDown);
+				clearInterval(this.goDown);
 			}
 		}
 		this.updateImg();
