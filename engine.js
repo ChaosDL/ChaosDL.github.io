@@ -3,17 +3,18 @@ var RIGHT = 2;
 var SPEED_1 = 3;
 var SPEED_2 = 6;
 var score = 0;
-function bowler()
+var combo = 1;
+function bowler(w, h, x, y, img)
 {
-	var width = 150;
-	var height = 150;
+	var width = w;//150
+	var height = h;//150
 	//defining hitbox
-	this.xmin = 0;
+	this.xmin = x;//0
 	this.xmax = this.xmin + width;
-	this.ymin = window.innerHeight - height;
+	this.ymin = y;//window.innerHeight - height
 	this.ymax = this.ymin + 120;
 	var bowlerImg = document.createElement("img");
-	bowlerImg.src = "catchperson.png";
+	bowlerImg.src = img;
 	bowlerImg.style.position = "fixed";
 	bowlerImg.style.top = this.ymin + "px";
 	bowlerImg.style.left = this.xmin + "px";
@@ -41,6 +42,7 @@ function bowler()
 	}
 	this.movingRight = false;
 	this.movingLeft = false;
+	var me = this;//for setInterval;
 	this.moveBowler = function(speed, direction)
 	{
 		if(direction == LEFT)
@@ -48,7 +50,7 @@ function bowler()
 			clearInterval(this.rightMove);
 			if(!this.movingLeft)
 			{
-				this.leftMove = setInterval(function(){left(speed, LEFT);}, 5);
+				this.leftMove = setInterval(function(){if(me.shifted){me.updateBowler(SPEED_2, 	LEFT);} else{me.updateBowler(SPEED_1, LEFT);}}, 5);
 			}
 			this.movingRight = false;
 			this.movingLeft = true;
@@ -58,7 +60,7 @@ function bowler()
 			clearInterval(this.leftMove);
 			if(!this.movingRight)
 			{
-				this.rightMove = setInterval(function(){right(speed, RIGHT);}, 5);
+				this.rightMove = setInterval(function(){if(me.shifted){me.updateBowler(SPEED_2, RIGHT)} else{me.updateBowler(SPEED_1, RIGHT);}}, 5);
 			}
 			this.movingLeft = false;
 			this.movingRight = true;
@@ -66,126 +68,164 @@ function bowler()
 	}
 
 }
-//calling this.updateBowler not working so used left and right function
+//made everything abstract for the most part
+//calling this.updateBowler not working so used left and right function--ignore dis pls
+/*
 function right(speed, direction)
 {
-	if(Palpa.shifted)
+	if(me.shifted)
 	{
-		Palpa.updateBowler(SPEED_2, RIGHT);
+		me.updateBowler(SPEED_2, RIGHT);
 	}
 	else{
-	Palpa.updateBowler(speed, direction);}
+	me.updateBowler(speed, direction);}
 }
 function left(speed, direction)
 {
-	if(Palpa.shifted)
+	if(me.shifted)
 	{
-			Palpa.updateBowler(SPEED_2, LEFT);
+			me.updateBowler(SPEED_2, LEFT);
 	}
 	else{
-	Palpa.updateBowler(speed, direction);}
-}
-function move(e)
+	me.updateBowler(speed, direction);}
+}*/
+
+function move(e, bowler)
 {
 	if(e.shiftKey)
 	{
-		Palpa.shifted = true;
+		bowler.shifted = true;
 	}
 	//left
 	if(e.which == 65)
 	{
-		
-		Palpa.moveBowler(SPEED_1, LEFT);
-		
+		bowler.moveBowler(SPEED_1, LEFT);
 	}
 	//right
 	if(e.which == 68)
 	{
-		Palpa.moveBowler(SPEED_1, RIGHT);
+		bowler.moveBowler(SPEED_1, RIGHT);
 		
 	}
 }
 var audio;
-function Mages()
+var mageImg = document.createElement("img");
+function Mages(bowler, x, y)
 {
+	this.bowler = bowler;
+	var ImgNew = document.createElement("img");
 	var width = 90;
 	var height = 90;
 	//defining hitbox
-	this.xmin = (parseInt(Math.random() * window.innerWidth)) - width;;
+	this.xmin = x;
 	this.xmax = this.xmin + width;
-	this.ymin = 0;
+	this.ymin = y;
 	this.ymax = this.ymin + 90;
-	var mageImg = document.createElement("img");
 	var ranImg = parseInt(Math.random() * 4) + 1; 
-	mageImg.src = ranImg + ".png";
-	mageImg.style.position = "fixed";
-	mageImg.style.top = this.ymin + "px";
-	mageImg.style.left = this.xmin + "px";
-	mageImg.style.width = width + "px";
-	mageImg.style.height = height + "px";
-	mageImg.className = "imgpulse" + ranImg;
-	document.body.appendChild(mageImg);
+	ImgNew.src = ranImg + ".png";
+	ImgNew.style.position = "fixed";
+	ImgNew.style.top = this.ymin + "px";
+	ImgNew.style.left = this.xmin + "px";
+	ImgNew.style.width = width + "px";
+	ImgNew.style.height = height + "px";
+	ImgNew.className = "imgpulse" + ranImg;
+	document.body.appendChild(ImgNew);
 	var me = this;
 	this.updateImg = function() 
 	{
-		mageImg.style.top = this.ymin + "px";
+		ImgNew.style.top = me.ymin + "px";
 	}
-	this.updateMage = function(amount)
+	this.updateMage = function(amount, bowler)
 	{
-		this.ymin += amount;
-		this.ymax = this.ymin + height;
-		if(((this.ymax >= Palpa.ymin -1) && (this.ymax <= Palpa.ymin +1)) && ((this.xmin > Palpa.xmin && this.xmin < Palpa.xmax) ||( this.xmax < Palpa.xmax && this.xmax > Palpa.xmin)) )
+		me.ymin += amount;
+		me.ymax = me.ymin + height;
+		if(((me.ymax >= bowler.ymin -3) && (me.ymax <= bowler.ymin +3)) && ((me.xmin > bowler.xmin && me.xmin < bowler.xmax) ||( me.xmax < bowler.xmax && me.xmax > bowler.xmin)) )
 		{
-			score++;
+			healthAmount += 5;
+			if(healthAmount > 100)
+			{healthAmount = 100;}
+			healthDiv.style.width = healthAmount + "%";
+			score += combo * 300;
 			scoreDiv.innerHTML = score;
-			document.body.removeChild(mageImg);
+			combo++;
+			comboSp.innerHTML = combo + "x";
+			document.body.removeChild(ImgNew);
 			var flashImg = document.createElement("img");
 			flashImg.src = "flash" + ranImg + ".png";
 			flashImg.style.position = "fixed";
-			flashImg.style.top = Palpa.ymin - 150 + "px";
-			flashImg.style.left = Palpa.xmin + "px";
+			flashImg.style.top = bowler.ymin - 150 + "px";
+			flashImg.style.left = bowler.xmin + "px";
 			flashImg.style.opacity = 1;
-			var flashTravel = setInterval(function(){flashImg.style.left = Palpa.xmin + "px"; flashImg.style.opacity -= (1/160)}, 5);
+			var flashTravel = setInterval(function(){flashImg.style.left = bowler.xmin + "px"; flashImg.style.opacity -= (1/160)}, 5);
 			document.body.appendChild(flashImg);
-			audio = new Audio(ranImg + ".wav");
+			var audio = new Audio(ranImg + ".wav");
 			audio.play();
 			setTimeout(function(){clearInterval(flashTravel); document.body.removeChild(flashImg)}, 800);
-			clearInterval(this.goDown);
+			clearInterval(me.goDown);
 			
 		}
 		else
 		{
-			if(this.ymin == window.innerHeight)
+			if(me.ymin >= window.innerHeight)
 			{
-				document.body.removeChild(mageImg);
-				clearInterval(this.goDown);
+				var audio = new Audio("combobreak.mp3");
+				audio.play();
+				healthAmount -=7;
+				healthDiv.style.width = healthAmount + "%";
+				combo = 1;
+				comboSp.innerHTML = combo + "x";
+				document.body.removeChild(ImgNew);
+				clearInterval(me.goDown);
 			}
 		}
 		this.updateImg();
 	}
 	this.moveMage = function()
 	{
-		this.goDown = setInterval(function(){me.updateMage(4)}, 10);
+		this.goDown = setInterval(function(){me.updateMage(4, me.bowler)}, 10);
 	}
-	this.moveMage();
 }
 
 
-function moveMK2(e)
+function moveMK2(e, bowler)
 {
 	if(e.which == 16)
 	{
-		Palpa.shifted = false;
+		bowler.shifted = false;
 	}
 	if(e.which == 65)
 	{
-		clearInterval(Palpa.leftMove);
-		Palpa.movingLeft = false;
+		clearInterval(bowler.leftMove);
+		bowler.movingLeft = false;
 	}
 	//right
 	if(e.which == 68)
 	{
-		clearInterval(Palpa.rightMove);
-		Palpa.movingRight = false;
+		clearInterval(bowler.rightMove);
+		bowler.movingRight = false;
 	}
+}
+var healthAmount = 100;
+function healthDecay(rate)
+{
+	//rate is health% per sec
+	value = rate/100;
+	decay = setInterval(function(){
+		healthAmount -= value;
+		healthDiv.style.width = healthAmount + "%";
+		if(healthAmount <= 0)
+		{
+			gOver = document.createElement("div");
+			gOver.innerHTML = "You lost! Ahahahaa!";
+			gOver.style.textAlign = "center";
+			document.getElementById("bgAud").src = "";
+			var audio = new Audio("failsound.mp3");
+			audio.play();
+			document.body.appendChild(gOver);
+			healthAmount = 0;
+			clearInterval(createDemMages);
+			clearInterval(decay);
+		}
+		}, 10);
+		
 }

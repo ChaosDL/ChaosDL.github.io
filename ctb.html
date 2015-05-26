@@ -1,10 +1,10 @@
 <!DOCTYPE HTML>
 <!--Melvin Cherian-->
-<html onkeydown= "move(event);" onkeyup = "moveMK2(event);">
+<html onkeydown= "move(event, Palpa);" onkeyup = "moveMK2(event, Palpa);">
 	<head>
 		<title>Terra Battle Hub</title>
         <style>
-			body {font-size:72pt; color:white; background: url(ctbbg.jpg) no-repeat; background-size:100%;}
+			body {font-size:36pt; color:white; background: url(ctbbg.jpg) no-repeat; background-size:100%;}
 		</style>
 		<link rel="stylesheet" type="text/css" href="ctb style.css">
         <script type = "text/javascript" src = "engine.js">
@@ -16,11 +16,18 @@
 		
 	<body>
 		<audio id = "bgAud" autoplay = "autoplay" loop="loop" preload="auto" src="ctbbgm.mp3" type="audio/mp3"></audio>
-		<div id = "boop">0</div>
+		<div class = "health"><div id = "healthbar"></div></div><br /><br />
+		<div id = "score">0</div>
+		<span id = "combo">1x</span>
 		<script type = "text/javascript">
-			scoreDiv = document.getElementById("boop");
-			Palpa = new bowler();
-			createDemMages = setInterval(function(){var magey = new Mages();}, 1000);
+			scoreDiv = document.getElementById("score");
+			comboSp = document.getElementById("combo");
+			comboSp.style.position = "fixed";
+			comboSp.style.top = (window.innerHeight - 200) + "px";
+			healthDiv = document.getElementById("healthbar");
+			Palpa = new bowler(150, 150, 0, (window.innerHeight - 150), "catchperson.png");
+			createDemMages = setInterval(function(){var magey = new Mages(Palpa, ((parseInt(Math.random() * window.innerWidth)) - 90), 0); magey.moveMage();}, 1000);
+			healthDecay(3);
 			document.getElementById("bgAud").volume = .8;
 		</script>
 	</body>

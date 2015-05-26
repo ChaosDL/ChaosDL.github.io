@@ -70,3 +70,17 @@
     from { box-shadow: 0 0 10px #121212; }
     to { box-shadow: 0 0 20px #1A1A66; }
 }
+.health {
+	height:10px;
+	width:300px;
+	border-style:solid;
+	border-width:2px;
+	border-radius:20px;
+	border-color:gray;
+}
+.health > div {
+	height:10px;
+	width:100%;
+	background-color:red;
+	border-radius:20px;
+}
