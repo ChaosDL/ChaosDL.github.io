@@ -1,0 +1,79 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>pixi.js example 1</title>
+		<style>
+			body {
+				margin: 0;
+				padding: 0;
+				background-color: #000000;
+			}
+			#bop{
+				position:fixed;
+				top:50%;
+				left:50%;
+				margin-top:-360px;
+				margin-left:-640px;
+			}
+		</style>
+		<script src="pixi.js-master/bin/pixi.js"></script>
+	</head>
+	
+	<body>
+	<div id = "bop">
+	
+	</div>
+	<script src="something.js"></script>
+	<script src="keycontrol.js"></script>
+	<script>
+		//man.on('mousedown', onDown);
+		onionMan = new object("onion.png", 30, 30, true);
+		onionControl = new playerControlled(onionMan, 640, 360);
+		onionControl.vx = 0;
+		onionControl.vy = 0;
+		left.press = function() {
+			onionControl.vx = -5;
+		}
+		left.release = function() {
+			if(!right.isDown){
+				onionControl.vx = 0;
+			}
+			else{right.press();}
+		}
+		right.press = function() {
+			onionControl.vx = 5;
+		}
+		right.release = function() {
+			if(!left.isDown){
+				onionControl.vx = 0;
+			}
+			else{left.press();}
+		}
+		up.press = function() {
+			onionControl.vy = -5;
+		}
+		up.release = function() {
+			if(!down.isDown){
+				onionControl.vy = 0;
+			}
+			else{down.press();}
+		}
+		down.press = function() {
+			onionControl.vy = 5;
+		}
+		down.release = function() {
+			if(!up.isDown){
+				onionControl.vy = 0;
+			}
+			else{up.press();}
+		}
+		animate();
+		function animate(){
+			requestAnimationFrame(animate);
+			onionControl.theThing.x += onionControl.vx;
+			onionControl.theThing.y += onionControl.vy;
+			renderer.render(stage);
+		}
+	</script>
+	</body>
+</html>
