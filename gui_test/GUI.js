@@ -91,7 +91,7 @@ function moveTrain(train, line, reverse){
         }
     }
 }
-animateTrainLine(0, true);
+animateTrainLine(0);
 
 
 
