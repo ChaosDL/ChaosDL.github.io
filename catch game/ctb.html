@@ -15,7 +15,7 @@
 	</head>
 		
 	<body>
-		<audio id = "bgAud" autoplay = "autoplay" loop="loop" preload="auto" src="ctbbgm.mp3" type="audio/mp3"></audio>
+		<audio id = "bgAud" autoplay = "autoplay" loop="loop" preload="auto" src="http://puu.sh/i7OxJ/b821da19e1.mp3" type="audio/mp3"></audio>
 		<div class = "health"><div id = "healthbar"></div></div><br /><br />
 		<div id = "score">0</div>
 		<span id = "combo">1x</span>
@@ -26,8 +26,17 @@
 			comboSp.style.top = (window.innerHeight - 200) + "px";
 			healthDiv = document.getElementById("healthbar");
 			Palpa = new bowler(150, 150, 0, (window.innerHeight - 150), "catchperson.png");
-			createDemMages = setInterval(function(){var magey = new Mages(Palpa, ((parseInt(Math.random() * window.innerWidth)) - 90), 0); magey.moveMage();}, 1000);
-			healthDecay(3);
+			var fallRate = 1000;
+			var createDemMages;
+			function startIt(daRate)
+			{
+				if(daRate <= 500 || !playState)
+				{return;}
+				clearInterval(createDemMages);
+				createDemMages = setInterval(function(){var magey = new Mages(Palpa, ((parseInt(Math.random() * window.innerWidth)) - 90), 100); magey.moveMage();}, daRate);
+			}
+			startIt(fallRate);
+			healthDecay(6);
 			document.getElementById("bgAud").volume = .8;
 		</script>
 	</body>

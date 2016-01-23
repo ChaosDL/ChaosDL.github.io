@@ -1,9 +1,10 @@
 var LEFT = 1; 
 var RIGHT = 2;
-var SPEED_1 = 3;
-var SPEED_2 = 6;
+var SPEED_1 = 8;
+var SPEED_2 = 16;
 var score = 0;
 var combo = 1;
+var playState = true;
 function bowler(w, h, x, y, img)
 {
 	var width = w;//150
@@ -68,27 +69,6 @@ function bowler(w, h, x, y, img)
 	}
 
 }
-//made everything abstract for the most part
-//calling this.updateBowler not working so used left and right function--ignore dis pls
-/*
-function right(speed, direction)
-{
-	if(me.shifted)
-	{
-		me.updateBowler(SPEED_2, RIGHT);
-	}
-	else{
-	me.updateBowler(speed, direction);}
-}
-function left(speed, direction)
-{
-	if(me.shifted)
-	{
-			me.updateBowler(SPEED_2, LEFT);
-	}
-	else{
-	me.updateBowler(speed, direction);}
-}*/
 
 function move(e, bowler)
 {
@@ -117,7 +97,8 @@ function Mages(bowler, x, y)
 	var width = 90;
 	var height = 90;
 	//defining hitbox
-	this.xmin = x;
+	if(x < 0){this.xmin = 0;}
+	else{this.xmin = x;}
 	this.xmax = this.xmin + width;
 	this.ymin = y;
 	this.ymax = this.ymin + 90;
@@ -141,6 +122,8 @@ function Mages(bowler, x, y)
 		me.ymax = me.ymin + height;
 		if(((me.ymax >= bowler.ymin -3) && (me.ymax <= bowler.ymin +3)) && ((me.xmin > bowler.xmin && me.xmin < bowler.xmax) ||( me.xmax < bowler.xmax && me.xmax > bowler.xmin)) )
 		{
+			fallRate -= 50;
+			startIt(fallRate);
 			healthAmount += 5;
 			if(healthAmount > 100)
 			{healthAmount = 100;}
@@ -168,7 +151,9 @@ function Mages(bowler, x, y)
 		{
 			if(me.ymin >= window.innerHeight)
 			{
-				var audio = new Audio("combobreak.mp3");
+				fallRate = 1000;
+				startIt(fallRate);
+				var audio = new Audio("combobreak.wav");
 				audio.play();
 				healthAmount -=7;
 				healthDiv.style.width = healthAmount + "%";
@@ -215,11 +200,12 @@ function healthDecay(rate)
 		healthDiv.style.width = healthAmount + "%";
 		if(healthAmount <= 0)
 		{
+			playState = !playState;
 			gOver = document.createElement("div");
 			gOver.innerHTML = "You lost! Ahahahaa!";
 			gOver.style.textAlign = "center";
 			document.getElementById("bgAud").src = "";
-			var audio = new Audio("failsound.mp3");
+			var audio = new Audio("failsound.wav");
 			audio.play();
 			document.body.appendChild(gOver);
 			healthAmount = 0;
