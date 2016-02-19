@@ -3,7 +3,3 @@ OOO
 yes
 YEAs
 
-<<<<<<< HEAD
-=======
-hk
->>>>>>> 5552d3ead3b60e9b4b61b868d07f56aac68a8ab9
