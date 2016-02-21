@@ -1,0 +1,114 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>pixi.js Round</title>
+		<style>
+			body {
+				margin: 0;
+				padding: 0;
+				background-color: #000000;
+			}
+			#bop{
+				position:fixed;
+				top:50%;
+				left:50%;
+				/*half height*/
+				margin-top:-450px;
+				/*half width*/
+				margin-left:-600px;
+			}
+		</style>
+		<script src="../pixi_bs/pixi.js-master/bin/pixi.js"></script>
+	</head>
+	
+	<body>
+	<div id = "bop">
+	
+	</div>
+	<script src="keycontrol.js"></script>
+	<script>
+		var width = 1200;
+		var height = 900;
+		var boop = document.getElementById("bop");
+		var renderer = PIXI.autoDetectRenderer(width,height, {backgroundColor : 0x1099bb});
+		boop.appendChild(renderer.view);
+		var stage = new PIXI.Container();
+	</script>
+	<script src="GUI.js"></script>
+	<script>
+		/*2PI in one second*/
+		counterClock.press = function() {
+			thetaIncAmount = .1046667;
+		}
+		counterClock.release = function() {
+			if(!clock.isDown){
+				thetaIncAmount = 0;
+			}
+			else{clock.press();}
+		}
+		clock.press = function() {
+			thetaIncAmount = -.1046667;
+		}
+		clock.release = function() {
+			if(!counterClock.isDown){
+				thetaIncAmount = 0;
+			}
+			else{counterClock.press();}
+		}
+		/**/
+
+		
+		//man.on('mousedown', onDown);
+		/*onionMan = new object("onion.png", 30, 30, true);
+		onionControl = new playerControlled(onionMan, 640, 360);
+		onionControl.vx = 0;
+		onionControl.vy = 0;
+		left.press = function() {
+			onionControl.vx = -5;
+		}
+		left.release = function() {
+			if(!right.isDown){
+				onionControl.vx = 0;
+			}
+			else{right.press();}
+		}
+		right.press = function() {
+			onionControl.vx = 5;
+		}
+		right.release = function() {
+			if(!left.isDown){
+				onionControl.vx = 0;
+			}
+			else{left.press();}
+		}
+		up.press = function() {
+			onionControl.vy = -5;
+		}
+		up.release = function() {
+			if(!down.isDown){
+				onionControl.vy = 0;
+			}
+			else{down.press();}
+		}
+		down.press = function() {
+			onionControl.vy = 5;
+		}
+		down.release = function() {
+			if(!up.isDown){
+				onionControl.vy = 0;
+			}
+			else{up.press();}
+		}*/
+
+	</script>
+	<script>
+		animate();
+		function animate(){
+			requestAnimationFrame(animate);
+			/*onionControl.theThing.x += onionControl.vx;
+			onionControl.theThing.y += onionControl.vy;*/
+			renderer.render(stage);
+		}
+	</script>
+	</body>
+</html>
