@@ -1,0 +1,100 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <title>owo translator</title>
+        <script>
+            const patternMap = {
+                "._": "A",
+                "_...": "B",
+                "_._.": "C",
+                "_..": "D",
+                ".": "E",
+                ".._.": "F",
+                "__.": "G",
+                "....": "H",
+                "..": "I",
+                ".___": "J",
+                "_._": "K",
+                "._..": "L",
+                "__": "M",
+                "_.": "N",
+                "___": "O",
+                ".__.": "P",
+                "__._": "Q",
+                "._.": "R",
+                "...": "S",
+                "_": "T",
+                ".._": "U",
+                "..._": "V",
+                ".__": "W",
+                "_.._": "X",
+                "_.__": "Y",
+                "__..": "Z",
+                "_____": "0",
+                ".____": "1",
+                "..___": "2",
+                "...__": "3",
+                "...._": "4",
+                ".....": "5",
+                "_....": "6",
+                "__...": "7",
+                "___..": "8",
+                "____.": "9"
+            };
+            let patternMapOwOEnc = {};
+            let patternMapOwODec = {};
+            for (const [key, value] of Object.entries(patternMap)) {
+                let owostr = key.replace(/\./g, "owo-").replace(/\_/g,"uwu-").slice(0,-1);
+                patternMapOwOEnc[value.toLowerCase()] = owostr;
+                let poop = translate("yes", 0)
+                patternMapOwOEnc[" "] = " ";
+                patternMapOwODec[owostr] = value.toLowerCase();
+                patternMapOwODec[" "] = " ";
+            }
+            function translatedWord(word, map){
+                let translated = "";
+                let separator = ("a" in map)?",":"";
+                
+                for (let c of word){
+                    if(c in map){
+                        translated+=map[c]+separator;
+                    }
+
+                }
+                if(separator===","){
+                    translated = translated.slice(0,-1);
+                }
+                return translated
+            }
+            function translate(input, type){
+                let map = (type===0)?patternMapOwOEnc:patternMapOwODec;
+                let translated = "";
+                for (let word of input.toLowerCase().match(/\S+/g) || [] ){
+                    if(type===1){
+                        word = word.split(",");
+                    }
+                    translated += translatedWord(word, map) + " "; 
+
+                }
+                return translated.slice(0,-1);
+            }
+            function owoButton(){
+                let inputText = document.getElementById("plain").value;
+                let output = document.getElementById("converted");
+                output.value = translate(inputText, 0);
+            }
+            function sanityButton(){
+                let inputText = document.getElementById("converted").value;
+                let output = document.getElementById("plain");
+                output.value = translate(inputText, 1);
+            }
+        </script>
+    </head>
+
+    <body>
+        <textarea id="plain" rows="10" cols="100"></textarea><br />
+        <button onclick="owoButton();">owo</button>
+        <button onclick="sanityButton();">sanity</button><br />
+        <textarea id="converted" rows="10" cols="100"></textarea><br />
+    </body>
+</html>
